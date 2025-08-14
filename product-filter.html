@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Product Filter</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    select {
+        padding: 8px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    .product {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+    .product h4 {
+        margin: 10px 0 5px;
+    }
+    .product p {
+        color: #555;
+    }
+</style>
+</head>
+<body>
+
+<h2>Product Filter</h2>
+
+<!-- Dropdown for filtering -->
+<select id="categoryFilter">
+    <option value="all">All Categories</option>
+    <option value="electronics">Electronics</option>
+    <option value="clothing">Clothing</option>
+    <option value="books">Books</option>
+</select>
+
+<!-- Container for products -->
+<div class="product-list" id="productList"></div>
+
+<script>
+// Sample product data
+const products = [
+    { name: "Smartphone", category: "electronics", price: "$500" },
+    { name: "Laptop", category: "electronics", price: "$1200" },
+    { name: "T-shirt", category: "clothing", price: "$20" },
+    { name: "Jeans", category: "clothing", price: "$40" },
+    { name: "Novel", category: "books", price: "$15" },
+    { name: "Notebook", category: "books", price: "$5" }
+];
+
+const productList = document.getElementById('productList');
+const categoryFilter = document.getElementById('categoryFilter');
+
+// Function to display products
+function displayProducts(filter) {
+    productList.innerHTML = ''; // Clear current list
+
+    const filteredProducts = products.filter(product => 
+        filter === 'all' ? true : product.category === filter
+    );
+
+    filteredProducts.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product');
+
+        productDiv.innerHTML = `
+            <h4>${product.name}</h4>
+            <p>${product.price}</p>
+        `;
+
+        productList.appendChild(productDiv);
+    });
+}
+
+// Initial display (all products)
+displayProducts('all');
+
+// Event listener for dropdown change
+categoryFilter.addEventListener('change', (e) => {
+    displayProducts(e.target.value);
+});
+</script>
+
+</body>
+</html>
